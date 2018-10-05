@@ -15,6 +15,7 @@ void printBoard(TTT_Game t)
 
     std::cout << "\n\n";
 }
+
 int main()
 {
     std::vector<TTT_Game> game_history;

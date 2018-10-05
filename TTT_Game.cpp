@@ -42,11 +42,16 @@ TTT_Game::TTT_Game()
     {
         for(int j = 0; j < 3; j++)
         {
-            board[i][j] = 'o';
+            board[i][j] = '-';
         }
     }
 
-    srand(time(NULL));
+    static bool seeded = false;
+    if(!seeded) {
+        srand(time(NULL));
+        seeded = true;
+    }
+
     std::vector<int> available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     //Randomize players between [X, O] and [O, X] to simulate games starting with different player
@@ -64,22 +69,8 @@ TTT_Game::TTT_Game()
         }
 
         //std::cout << cur_move << " ";
-        //board[cur_move / 3][cur_move % 3] = players[i % 2];
-        board[cur_move / 3][cur_move % 3] = 'x';
+        board[cur_move / 3][cur_move % 3] = players[i % 2];
+        //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
     }
-
-    //This code confirmed works
-    /*int test = rand() % available_moves.size();
-    for(int i = 0; i < 10; ++i)
-    {
-        while(available_moves[test] == -1)
-        {
-            test = rand() % available_moves.size();
-        }
-        std::cout << test;
-        available_moves[test] = -1;
-    }*/
-
-    std::cout << "\n";
 }
