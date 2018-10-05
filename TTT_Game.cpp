@@ -61,7 +61,7 @@ TTT_Game::TTT_Game()
     players[1 - X_turn] = 'O';
     int cur_move = rand() % available_moves.size();
 
-    for(int i = 0; (i < 9) && (checkWin() == '-'); ++i)
+    for(int i = 0; (i <= 9) && (checkWin() == '-'); ++i)
     {
         while(available_moves[cur_move] == -1)
         {
