@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1538768110 source:d:\c++ backup\programs\self\real_deal_tic_tac_toe\main.cpp
+	<iostream>
+	"TTT_Game.h"
+
+1538768095 source:d:\c++ backup\programs\self\real_deal_tic_tac_toe\ttt_game.cpp
+	"TTT_Game.h"
+	<stdlib.h>
+	<time.h>
+	<iostream>
+
+1538766542 d:\c++ backup\programs\self\real_deal_tic_tac_toe\ttt_game.h
+	<vector>
+

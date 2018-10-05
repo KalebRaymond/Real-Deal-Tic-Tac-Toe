@@ -1,6 +1,7 @@
 #include "TTT_Game.h"
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
 
 char TTT_Game::checkWin()
 {
@@ -37,6 +38,14 @@ char TTT_Game::checkWin()
 
 TTT_Game::TTT_Game()
 {
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            board[i][j] = 'o';
+        }
+    }
+
     srand(time(NULL));
     std::vector<int> available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
@@ -45,11 +54,32 @@ TTT_Game::TTT_Game()
     int X_turn = rand() % 2;
     players[X_turn] = 'X';
     players[1 - X_turn] = 'O';
+    int cur_move = rand() % available_moves.size();
 
     for(int i = 0; (i < 9) && (checkWin() == '-'); ++i)
     {
-        int cur_move = rand() % available_moves.size();
-        board[cur_move / 3][cur_move % 3] = players[i % 2];
-        available_moves.erase(available_moves.begin() + cur_move);
+        while(available_moves[cur_move] == -1)
+        {
+            cur_move = rand() % available_moves.size();
+        }
+
+        //std::cout << cur_move << " ";
+        //board[cur_move / 3][cur_move % 3] = players[i % 2];
+        board[cur_move / 3][cur_move % 3] = 'x';
+        available_moves[cur_move] = -1;
     }
+
+    //This code confirmed works
+    /*int test = rand() % available_moves.size();
+    for(int i = 0; i < 10; ++i)
+    {
+        while(available_moves[test] == -1)
+        {
+            test = rand() % available_moves.size();
+        }
+        std::cout << test;
+        available_moves[test] = -1;
+    }*/
+
+    std::cout << "\n";
 }

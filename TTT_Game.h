@@ -3,10 +3,10 @@
 
 class TTT_Game
 {
-    private:
+    public:
         std::vector<int> X_moves, O_moves;
         char board[3][3];
-    public:
+    //public:
         char checkWin();
         TTT_Game();
 };
