@@ -22,11 +22,15 @@ int main()
     //TTT_Game t;
     for(int i = 0; i < 100; ++i)
     {
+        std::cout << i << ". ";
         game_history.push_back(TTT_Game());
     }
 
+    int j = 0;
     for(TTT_Game t : game_history)
     {
-       printBoard(t);
+        std::cout << j << ". " << t.checkWin() << " wins.\n";
+        printBoard(t);
+        ++j;
     }
 }
