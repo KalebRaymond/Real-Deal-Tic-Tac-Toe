@@ -18,19 +18,12 @@ void printBoard(TTT_Game t)
 
 int main()
 {
-    std::vector<TTT_Game> game_history;
-    //TTT_Game t;
-    for(int i = 0; i < 100; ++i)
+    Opponent opp = Opponent(100);
+
+    for(TTT_Game t : opp.play_history)
     {
-        std::cout << i << ". ";
-        game_history.push_back(TTT_Game());
+        std::cout << t.checkWin() << " wins.\n";
+        printBoard(t);
     }
 
-    int j = 0;
-    for(TTT_Game t : game_history)
-    {
-        std::cout << j << ". " << t.checkWin() << " wins.\n";
-        printBoard(t);
-        ++j;
-    }
 }
