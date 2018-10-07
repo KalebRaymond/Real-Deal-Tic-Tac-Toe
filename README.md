@@ -5,6 +5,7 @@ Using a min-max algorithm is a whole lot faster, simpler, and should be used in 
 In contrast to my other Tic Tac Toe project that used min-max, this one's opponent prepares for the game by simulating a given amount of test rounds and applying what it learned against the user.
 
 ## Handy references ##
+### Method branch numbers refer to this list.  
 1. https://users.auth.gr/kehagiat/Research/GameTheory/12CombBiblio/TicTacToe.pdf  
 2. Alpha Toe - https://www.youtube.com/watch?v=Meb5hApAnj4  
 3. Naive Bayes - http://www.ijiet.org/papers/314-k010.pdf  
