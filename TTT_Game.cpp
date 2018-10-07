@@ -36,20 +36,21 @@ char TTT_Game::checkWin()
     return '-';
 }
 
+
 TTT_Game::TTT_Game()
 {
+    static bool seeded = false;
+    if(!seeded) {
+        srand(time(NULL));
+        seeded = true;
+    }
+
     for(int i = 0; i < 3; i++)
     {
         for(int j = 0; j < 3; j++)
         {
             board[i][j] = '-';
         }
-    }
-
-    static bool seeded = false;
-    if(!seeded) {
-        srand(time(NULL));
-        seeded = true;
     }
 
     std::vector<int> available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
@@ -68,11 +69,29 @@ TTT_Game::TTT_Game()
             cur_move = rand() % available_moves.size();
         }
 
-        std::cout << cur_move << " ";
         board[cur_move / 3][cur_move % 3] = players[i % 2];
         //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
     }
 
     std::cout << "\n";
+}
+
+
+void Opponent::playNewGames(int n)
+{
+    for(int i = 0; i < n; ++i)
+    {
+        play_history.push_back(TTT_Game());
+    }
+}
+
+Opponent::Opponent(int training_session)
+{
+    for(double &d : move_probability)
+    {
+        d = 0.0;
+    }
+
+    playNewGames(training_session);
 }
