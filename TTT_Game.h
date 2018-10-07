@@ -20,7 +20,6 @@ class Opponent
         double move_probability[9];
 
     //public:
-
         void playNewGames(int n);
         Opponent(int training_session);
 };
