@@ -12,3 +12,6 @@ In contrast to my other Tic Tac Toe project that used min-max, this one's oppone
 4. Reinforcement Learning - https://medium.com/@shiyan/get-a-taste-of-reinforcement-learning-implement-a-tic-tac-toe-agent-deda5617b2e4  
 5. Monte Carlo Sampling - https://www.google.com/search?q=monte+carlo+sampling&ie=utf-8&oe=utf-8&client=firefox-b-1-ab  
 6. Policy Gradients - https://www.google.com/search?q=policy+gradients&ie=utf-8&oe=utf-8&client=firefox-b-1-ab  
+
+
+![Me_irl](https://cdn.iwastesomuchtime.com/7102012232216iwsmt.jpeg)
