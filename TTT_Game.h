@@ -6,9 +6,11 @@ class TTT_Game
         char board[3][3];
         std::vector<int> X_moves,
                          O_moves;
+        std::vector<int> available_moves;
 
         char checkWin();
         void autoPlay();
+        void printBoard();
         TTT_Game();
 
 };
@@ -23,7 +25,7 @@ class Opponent
     //public:
 
         void playNewGames(int n);
-        void playCurrentGame();
+        void playVsUser();
         Opponent(int training_session);
 
 };

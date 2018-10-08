@@ -40,7 +40,7 @@ void TTT_Game::autoPlay()
 {
     //Randomize players between [X, O] and [O, X] to simulate games starting with different player
     char players[2];
-    std::vector<int> available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
+    available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
     int X_turn = rand() % 2;
 
     players[X_turn] = 'X';
@@ -57,6 +57,21 @@ void TTT_Game::autoPlay()
         board[cur_move / 3][cur_move % 3] = players[i % 2];
         //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
+    }
+
+    std::cout << "\n";
+}
+
+void TTT_Game::printBoard()
+{
+    for(int i = 0; i < 3; ++i)
+    {
+        for(int j = 0; j < 3; ++j)
+        {
+            std::cout << board[i][j];
+        }
+
+        std::cout << "\n";
     }
 
     std::cout << "\n";
@@ -90,7 +105,43 @@ void Opponent::playNewGames(int n)
     }
 }
 
+void Opponent::playVsUser()
+{
+    TTT_Game current_game;
+    current_game.available_moves = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+    int turn_count = 0;
 
+    while(current_game.checkWin() == '-')
+    {
+        current_game.printBoard();
+
+        if(turn_count % 2 == 0)
+        {
+            int row = 0, column = 0;
+            std::cout << "Enter row: ";
+            std::cin >> row;
+            std::cout << "Enter column: ";
+            std::cin >> column;
+
+            current_game.board[row][column] = 'X';
+            current_game.available_moves[(row * 3) + column] = -1;
+        }
+        else
+        {
+            int cur_move = rand() % current_game.available_moves.size();
+            while(current_game.available_moves[cur_move] == -1)
+            {
+                cur_move = rand() % current_game.available_moves.size();
+            }
+
+            current_game.board[cur_move / 3][cur_move % 3] = 'O';
+            current_game.available_moves[cur_move] = -1;
+        }
+
+        ++turn_count;
+    }
+
+}
 
 Opponent::Opponent(int training_session)
 {
