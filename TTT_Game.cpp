@@ -36,28 +36,13 @@ char TTT_Game::checkWin()
     return '-';
 }
 
-
-TTT_Game::TTT_Game()
+void TTT_Game::autoPlay()
 {
-    static bool seeded = false;
-    if(!seeded) {
-        srand(time(NULL));
-        seeded = true;
-    }
-
-    for(int i = 0; i < 3; i++)
-    {
-        for(int j = 0; j < 3; j++)
-        {
-            board[i][j] = '-';
-        }
-    }
-
-    std::vector<int> available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
-
     //Randomize players between [X, O] and [O, X] to simulate games starting with different player
     char players[2];
+    std::vector<int> available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
     int X_turn = rand() % 2;
+
     players[X_turn] = 'X';
     players[1 - X_turn] = 'O';
     int cur_move = rand() % available_moves.size();
@@ -77,14 +62,35 @@ TTT_Game::TTT_Game()
     std::cout << "\n";
 }
 
+TTT_Game::TTT_Game()
+{
+    static bool seeded = false;
+    if(!seeded) {
+        srand(time(NULL));
+        seeded = true;
+    }
+
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            board[i][j] = '-';
+        }
+    }
+
+}
+
 
 void Opponent::playNewGames(int n)
 {
     for(int i = 0; i < n; ++i)
     {
         play_history.push_back(TTT_Game());
+        play_history[i].autoPlay();
     }
 }
+
+
 
 Opponent::Opponent(int training_session)
 {

@@ -8,6 +8,7 @@ class TTT_Game
                          O_moves;
 
         char checkWin();
+        void autoPlay();
         TTT_Game();
 
 };
@@ -20,6 +21,9 @@ class Opponent
         double move_probability[9];
 
     //public:
+
         void playNewGames(int n);
+        void playCurrentGame();
         Opponent(int training_session);
+
 };
