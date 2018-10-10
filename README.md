@@ -4,7 +4,7 @@ Using a min-max algorithm is a whole lot faster, simpler, and should be used in 
 
 In contrast to my other Tic Tac Toe project that used min-max, this one's opponent prepares for the game by simulating a given amount of test rounds and applying what it learned against the user.
 
-I would have added a function to determine whether two tic-tac-toe games were reflections/rotations of eachother, thus reducing the search space for learning from past games, but the complexity of transforming each game eight times and performing a linear search each time outweighed the benefits. Bigger fish to fry.
+I would have added a function to determine whether two tic-tac-toe games were reflections/rotations of eachother, thus reducing the search space for learning from past games, but the complexity of transforming each game eight times and performing a linear search each time outweighed the benefits. There might be some better way of checking such as bijectional mapping or something, but there are bigger fish to fry.
 
 ## Handy references ##
 ### Method branch numbers refer to this list.  
