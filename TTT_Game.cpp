@@ -3,6 +3,8 @@
 #include <time.h>
 #include <iostream>
 
+/* TTT_Game members */
+
 char TTT_Game::checkWin()
 {
     //Check diagonals
@@ -95,6 +97,7 @@ TTT_Game::TTT_Game()
 
 }
 
+/* Opponent members */
 
 void Opponent::playNewGames(int n)
 {
