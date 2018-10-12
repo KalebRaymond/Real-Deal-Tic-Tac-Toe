@@ -11,7 +11,8 @@ The bulk of this program was spent trying to decipher what `V(s) <- V(s) + α[ V
 
 
 ## Handy references ##
-### Method branch numbers refer to this list.  
+### Method branch names refer to this list.  
+Dartmouth. https://www.cs.dartmouth.edu/~lorenzo/teaching/cs134/Archive/Spring2009/final/PengTao/final_report.pdf  
 1. https://users.auth.gr/kehagiat/Research/GameTheory/12CombBiblio/TicTacToe.pdf  
 2. Alpha Toe - https://www.youtube.com/watch?v=Meb5hApAnj4  
 3. Naive Bayes - http://www.ijiet.org/papers/314-k010.pdf  
