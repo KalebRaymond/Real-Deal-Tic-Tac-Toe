@@ -40,6 +40,16 @@ char TTT_Game::checkWin()
 
 void TTT_Game::autoPlay()
 {
+    //So I'm thinking the configuration of board[3][3] is s. Thus V(s) somehow determiens the value of that state s.
+    //I suppose s' is a state that has already been encountered, which can be accessed from a database of states.
+    /*   a. In each episode of the learning phase                                                                                   /
+    /    1) Observe a current board state s;                                                                                        /
+    /    2) Make a next move based on the distribution of all available V(s') of next moves;                                        /
+    /    3) Record s' in a sequence;                                                                                                /
+    /    4)  If  the  game  finishes,  it  updates  the  values  of  the  visited  states  in  the  sequence  and  starts  over     /
+    /    again; otherwise, go to 1).                                                                                               */
+
+
     //Randomize players between [X, O] and [O, X] to simulate games starting with different player
     char players[2];
     available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
