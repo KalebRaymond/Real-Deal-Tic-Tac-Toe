@@ -12,7 +12,13 @@ int main()
         t.printBoard();
     }
 
-    opp.playVsUser();
+    //opp.playVsUser();
+    std::vector<char> tx = {'X','X','X','X','X','X','X','X','X'};
+    std::vector<char> to = {'O','O','O','O','O','O','O','O','O'};
+
+    opp.states.push_back(to);
+    //std::cout << opp.states[0][2];
+    std::cout << opp.seenState(tx);
 
 
 }

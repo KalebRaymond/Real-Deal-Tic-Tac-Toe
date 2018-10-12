@@ -20,12 +20,14 @@ class Opponent
 {
     public:
         std::vector<TTT_Game> play_history;
+        std::vector< std::vector< char>> states; //Sometimes I really regret learning C++ as my first language
         double move_probability[9];
 
     //public:
 
         void playNewGames(int n);
         void playVsUser();
+        bool seenState(std::vector<char> state);
         Opponent(int training_session);
 
 };

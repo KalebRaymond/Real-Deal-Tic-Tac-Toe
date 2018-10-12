@@ -156,6 +156,34 @@ void Opponent::playVsUser()
 
 }
 
+//Returns true if parameter state "state" has been encountered in opponent's play experience
+bool Opponent::seenState(std::vector<char> state)
+{
+    bool contains = false;
+    bool flag = false;
+    for(auto s: states)
+    {
+        for(int i = 0; i < 9; i++)
+        {
+            if(s[i] != state[i])
+            {
+                break;
+            }
+
+            //Match found
+            flag = true;
+        }
+
+        if(flag)
+        {
+            contains = true;
+            break;
+        }
+    }
+
+    return contains;
+}
+
 Opponent::Opponent(int training_session)
 {
     for(double &d : move_probability)
