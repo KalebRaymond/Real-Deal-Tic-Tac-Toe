@@ -3,7 +3,7 @@
 class TTT_Game
 {
     public:
-        char board[3][3];
+        std::vector<char> board;
         std::vector<int> X_moves,
                          O_moves;
         std::vector<int> available_moves;

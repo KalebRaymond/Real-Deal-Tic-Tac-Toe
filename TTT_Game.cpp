@@ -7,23 +7,26 @@
 
 char TTT_Game::checkWin()
 {
+    /* 0 1 2  /
+    /  3 4 5  /
+    /  6 7 8 */
     //Check diagonals
-    if(( board[0][0] == board[1][1] && board[0][0] == board[2][2] )
-        || ( board[2][0] == board[1][1] && board[2][0] == board[0][2] ))
+    if(( board[0] == board[4] && board[0] == board[8] )
+        || ( board[6] == board[4] && board[6] == board[2] ))
     {
-        return board[1][1];
+        return board[4];
     }
 
     //Check rows & columns
     for(int i = 0; i < 3; ++i)
     {
-        if(board[i][0] == board[i][1] && board[i][0] == board[i][2])
+        if(board[i * 3] == board[(i * 3) + 1] && board[i * 3] == board[(i * 3) + 2])
         {
-            return board[i][0];
+            return board[i * 3];
         }
-        if(board[0][i] == board[1][i] && board[0][i] == board[2][i])
+        if(board[i] == board[3 + i] && board[i] == board[6 + i])
         {
-            return board[0][i];
+            return board[i];
         }
     }
 
@@ -55,6 +58,7 @@ void TTT_Game::autoPlay()
     available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
     int X_turn = rand() % 2;
 
+
     players[X_turn] = 'X';
     players[1 - X_turn] = 'O';
     int cur_move = rand() % available_moves.size();
@@ -66,7 +70,8 @@ void TTT_Game::autoPlay()
             cur_move = rand() % available_moves.size();
         }
 
-        board[cur_move / 3][cur_move % 3] = players[i % 2];
+        board[cur_move] = players[i % 2];
+
         //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
     }
@@ -76,14 +81,12 @@ void TTT_Game::autoPlay()
 
 void TTT_Game::printBoard()
 {
-    for(int i = 0; i < 3; ++i)
+    for(int i = 0; i < 9; ++i)
     {
-        for(int j = 0; j < 3; ++j)
-        {
-            std::cout << board[i][j];
-        }
+        std::cout << board[i];
 
-        std::cout << "\n";
+        if(i % 3 == 2)
+            std::cout << "\n";
     }
 
     std::cout << "\n";
@@ -97,13 +100,7 @@ TTT_Game::TTT_Game()
         seeded = true;
     }
 
-    for(int i = 0; i < 3; i++)
-    {
-        for(int j = 0; j < 3; j++)
-        {
-            board[i][j] = '-';
-        }
-    }
+    board = {'-', '-','-','-','-','-','-','-','-'};
 
 }
 
@@ -136,7 +133,7 @@ void Opponent::playVsUser()
             std::cout << "Enter column: ";
             std::cin >> column;
 
-            current_game.board[row][column] = 'X';
+            current_game.board[(row * 3) + column] = 'X';
             current_game.available_moves[(row * 3) + column] = -1;
         }
         else
@@ -147,7 +144,7 @@ void Opponent::playVsUser()
                 cur_move = rand() % current_game.available_moves.size();
             }
 
-            current_game.board[cur_move / 3][cur_move % 3] = 'O';
+            current_game.board[cur_move] = 'O';
             current_game.available_moves[cur_move] = -1;
         }
 
