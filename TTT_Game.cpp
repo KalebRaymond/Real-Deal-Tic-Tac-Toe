@@ -74,9 +74,15 @@ void TTT_Game::autoPlay()
 
         //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
+        if(this->opponent->seenState(board))
+        {
+            continue;
+        }
+        else
+        {
+            this->opponent->states.push_back(board);
+        }
     }
-
-    std::cout << "\n";
 }
 
 void TTT_Game::printBoard()
