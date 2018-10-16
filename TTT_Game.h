@@ -1,19 +1,27 @@
 #include <vector>
 
+class State;
 class TTT_Game;
 class Opponent;
+
+/* Class representing a game of tic tac toe at an aribitrary turn */
+class State
+{
+    std::vector<char> board;
+    double score;
+};
 
 /* A class representing a game of tic tac toe */
 class TTT_Game
 {
     public:
         Opponent* opponent;
-        std::vector<char> board;
+        std::vector<State> states;
         std::vector<int> X_moves,
                          O_moves;
         std::vector<int> available_moves;
 
-        char checkWin();
+        char checkWin(State s);
         void autoPlay();
         void printBoard();
         TTT_Game(Opponent* opponent);

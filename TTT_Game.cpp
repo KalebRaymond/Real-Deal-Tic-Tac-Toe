@@ -5,28 +5,28 @@
 
 /* TTT_Game members */
 
-char TTT_Game::checkWin()
+char TTT_Game::checkWin(State s)
 {
     /* 0 1 2  /
     /  3 4 5  /
     /  6 7 8 */
     //Check diagonals
-    if(( board[0] == board[4] && board[0] == board[8] )
-        || ( board[6] == board[4] && board[6] == board[2] ))
+    if(( s.[0] == s.board[4] && s.board[0] == s.board[8] )
+        || ( s.board[6] == s.board[4] && s.board[6] == s.board[2] ))
     {
-        return board[4];
+        return s.board[4];
     }
 
     //Check rows & columns
     for(int i = 0; i < 3; ++i)
     {
-        if(board[i * 3] == board[(i * 3) + 1] && board[i * 3] == board[(i * 3) + 2])
+        if(s.board[i * 3] == s.board[(i * 3) + 1] && s.board[i * 3] == s.board[(i * 3) + 2])
         {
-            return board[i * 3];
+            return s.board[i * 3];
         }
-        if(board[i] == board[3 + i] && board[i] == board[6 + i])
+        if(s.board[i] == s.board[3 + i] && s.board[i] == s.board[6 + i])
         {
-            return board[i];
+            return s.board[i];
         }
     }
 
@@ -70,7 +70,7 @@ void TTT_Game::autoPlay()
             cur_move = rand() % available_moves.size();
         }
 
-        board[cur_move] = players[i % 2];
+        States[i] = players[i % 2];
 
         //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
