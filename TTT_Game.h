@@ -3,7 +3,7 @@
 class TTT_Game
 {
     public:
-        char board[3][3];
+        std::vector<char> board;
         std::vector<int> X_moves,
                          O_moves;
         std::vector<int> available_moves;
@@ -20,12 +20,14 @@ class Opponent
 {
     public:
         std::vector<TTT_Game> play_history;
+        std::vector< std::vector< char>> states; //Sometimes I really regret learning C++ as my first language
         double move_probability[9];
 
     //public:
 
         void playNewGames(int n);
         void playVsUser();
+        bool seenState(std::vector<char> state);
         Opponent(int training_session);
 
 };

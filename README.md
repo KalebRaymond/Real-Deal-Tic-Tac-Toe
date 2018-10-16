@@ -6,12 +6,13 @@ In contrast to my other Tic Tac Toe project that used min-max, this one's oppone
 
 I would have added a function to determine whether two tic-tac-toe games were reflections/rotations of eachother, thus reducing the search space for learning from past games, but the complexity of transforming each game eight times and performing a linear search each time outweighed the benefits. There might be some better way of checking such as bijectional mapping or something, but there are bigger fish to fry.
 
-The bulk of this program was spent trying to decipher what `V(s) <- V(s) + α[ V(s') - V(s) ]` meant in terms of code (with procrastinating in the README coming in close second.) All the articles on temporal difference reinforcement learning are written in highly theoretical language - perhaps it is my duty to spoonfeed others who shall follow in my path.
+The bulk of this program was spent trying to decipher what `V(s) <- V(s) + α[ V(s') - V(s) ]` meant in terms of code (with procrastinating in the README coming in close second.) It took me like three days to figure out that `<-` just meant the asignment operator `=`. All the articles on temporal difference reinforcement learning are written in highly theoretical language - perhaps it is my duty to spoonfeed others who shall follow in my path.
 
 
 
 ## Handy references ##
-### Method branch numbers refer to this list.  
+### Method branch names refer to this list.  
+Dartmouth. https://www.cs.dartmouth.edu/~lorenzo/teaching/cs134/Archive/Spring2009/final/PengTao/final_report.pdf  
 1. https://users.auth.gr/kehagiat/Research/GameTheory/12CombBiblio/TicTacToe.pdf  
 2. Alpha Toe - https://www.youtube.com/watch?v=Meb5hApAnj4  
 3. Naive Bayes - http://www.ijiet.org/papers/314-k010.pdf  
