@@ -156,8 +156,7 @@ void Opponent::playVsUser()
 //Returns true if parameter state "state" has been encountered in opponent's play experience
 bool Opponent::seenState(std::vector<char> state)
 {
-    bool contains = false;
-    bool flag = false;
+    bool found = false;
     for(auto s: states)
     {
         for(int i = 0; i < 9; i++)
@@ -167,18 +166,16 @@ bool Opponent::seenState(std::vector<char> state)
                 break;
             }
 
-            //Match found
-            flag = true;
+            found = true;
         }
 
-        if(flag)
+        if(found)
         {
-            contains = true;
-            break;
+            return true;
         }
     }
 
-    return contains;
+    return false;
 }
 
 Opponent::Opponent(int training_session)

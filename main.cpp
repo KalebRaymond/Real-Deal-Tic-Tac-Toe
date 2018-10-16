@@ -18,7 +18,7 @@ int main()
 
     opp.states.push_back(to);
     //std::cout << opp.states[0][2];
-    std::cout << opp.seenState(tx);
+    std::cout << opp.seenState(to);
 
 
 }
