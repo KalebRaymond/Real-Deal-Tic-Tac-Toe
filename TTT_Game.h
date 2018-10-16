@@ -1,8 +1,13 @@
 #include <vector>
+
+class TTT_Game;
+class Opponent;
+
 /* A class representing a game of tic tac toe */
 class TTT_Game
 {
     public:
+        Opponent* opponent;
         std::vector<char> board;
         std::vector<int> X_moves,
                          O_moves;
@@ -11,7 +16,7 @@ class TTT_Game
         char checkWin();
         void autoPlay();
         void printBoard();
-        TTT_Game();
+        TTT_Game(Opponent* opponent);
 
 };
 

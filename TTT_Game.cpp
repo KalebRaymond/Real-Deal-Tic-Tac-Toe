@@ -92,7 +92,7 @@ void TTT_Game::printBoard()
     std::cout << "\n";
 }
 
-TTT_Game::TTT_Game()
+TTT_Game::TTT_Game(Opponent* opponent)
 {
     static bool seeded = false;
     if(!seeded) {
@@ -102,6 +102,8 @@ TTT_Game::TTT_Game()
 
     board = {'-', '-','-','-','-','-','-','-','-'};
 
+    this->opponent = opponent;
+
 }
 
 /* Opponent members */
@@ -110,14 +112,14 @@ void Opponent::playNewGames(int n)
 {
     for(int i = 0; i < n; ++i)
     {
-        play_history.push_back(TTT_Game());
+        play_history.push_back(TTT_Game(this));
         play_history[i].autoPlay();
     }
 }
 
 void Opponent::playVsUser()
 {
-    TTT_Game current_game;
+    TTT_Game current_game(this);
     current_game.available_moves = {0, 1, 2, 3, 4, 5, 6, 7, 8};
     int turn_count = 0;
 
