@@ -3,45 +3,51 @@
 #include <time.h>
 #include <iostream>
 
-/* TTT_Game members */
+/* State members */
 
-char TTT_Game::checkWin(State s)
+char State::checkWin()
 {
     /* 0 1 2  /
     /  3 4 5  /
     /  6 7 8 */
     //Check diagonals
-    if(( s.[0] == s.board[4] && s.board[0] == s.board[8] )
-        || ( s.board[6] == s.board[4] && s.board[6] == s.board[2] ))
+    if(( board[0] == board[4] && board[0] == board[8] )
+        || ( board[6] == board[4] && board[6] == board[2] ))
     {
-        return s.board[4];
+        return board[4];
     }
 
+    int move_count = 0;
     //Check rows & columns
     for(int i = 0; i < 3; ++i)
     {
-        if(s.board[i * 3] == s.board[(i * 3) + 1] && s.board[i * 3] == s.board[(i * 3) + 2])
+        if(board[i * 3] == board[(i * 3) + 1] && board[i * 3] == board[(i * 3) + 2])
         {
-            return s.board[i * 3];
+            return board[i * 3];
         }
-        if(s.board[i] == s.board[3 + i] && s.board[i] == s.board[6 + i])
+        if(board[i] == board[3 + i] && board[i] == board[6 + i])
         {
-            return s.board[i];
+            return board[i];
         }
     }
 
     //Check if game is drawn
     //(by checking for a draw after checking 3's in a row, this prevents returning draw if the game is won on the 9th move)
-    if(X_moves.size() + O_moves.size() == 9)
+    /*if(X_moveboard.size() + O_moveboard.size() == 9)
     {
         return 'D';
-    }
+    }*/
 
     //Otherwise, the game is still going
     return '-';
 }
 
-void TTT_Game::autoPlay()
+State::State()
+{
+    board = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
+}
+
+void Opponent::play()
 {
     //So I'm thinking the configuration of board[3][3] is s. Thus V(s) somehow determiens the value of that state s.
     //I suppose s' is a state that has already been encountered, which can be accessed from a database of states.
@@ -55,37 +61,35 @@ void TTT_Game::autoPlay()
 
     //Randomize players between [X, O] and [O, X] to simulate games starting with different player
     char players[2];
-    available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
+    std::vector<int> available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
     int X_turn = rand() % 2;
-
 
     players[X_turn] = 'X';
     players[1 - X_turn] = 'O';
     int cur_move = rand() % available_moves.size();
 
-    for(int i = 0; (i <= 8) && (checkWin() == '-'); ++i)
+    State cur_state;
+
+    for(int i = 0; (i <= 8) && (cur_state.checkWin() == '-'); ++i)
     {
+        if(!this.seenState(cur_state))
+        {
+            play_history.push_back(cur_state);
+        }
+
         while(available_moves[cur_move] == -1)
         {
             cur_move = rand() % available_moves.size();
         }
 
-        States[i] = players[i % 2];
+        cur_state.board[i] = cur_move;
 
         //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
-        if(this->opponent->seenState(board))
-        {
-            continue;
-        }
-        else
-        {
-            this->opponent->states.push_back(board);
-        }
     }
 }
 
-void TTT_Game::printBoard()
+/*void TTT_Game::printBoard()
 {
     for(int i = 0; i < 9; ++i)
     {
@@ -110,7 +114,7 @@ TTT_Game::TTT_Game(Opponent* opponent)
 
     this->opponent = opponent;
 
-}
+}*/
 
 /* Opponent members */
 
@@ -118,8 +122,7 @@ void Opponent::playNewGames(int n)
 {
     for(int i = 0; i < n; ++i)
     {
-        play_history.push_back(TTT_Game(this));
-        play_history[i].autoPlay();
+        play_history.push_back(State);
     }
 }
 
