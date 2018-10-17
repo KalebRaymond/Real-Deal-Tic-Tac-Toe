@@ -74,34 +74,42 @@ void Opponent::play()
     int cur_move = rand() % available_moves.size();
     int turn_count = 1;
 
-    State cur_state;
+    std::vector<char> cur_board = {'-','-','-','-','-','-','-','-','-'};
 
     std::cout << "New game\n";
 
-    for(int i = 0; (i <= 8) && (cur_state.checkWin(turn_count) == '-'); ++i)
+    for(int i = 0; i <= 8; ++i)
     {
 
-        if(!this->seenState(cur_state.board))
+        if(!this->seenState(cur_board))
         {
             std::cout << "New state:\n";
-            play_history.push_back(cur_state);
+            play_history.push_back(State());
+            play_history[play_history.size() - 1].board = cur_board;
+
+            if(play_history[play_history.size() - 1].checkWin(turn_count) != '-')
+            {
+                break;
+            }
         }
 
-        cur_state.printBoard();
+        //cur_board.printBoard();
 
         while(available_moves[cur_move] == -1)
         {
             cur_move = rand() % available_moves.size();
+
         }
 
-        cur_state.board[available_moves[cur_move]] = players[i % 2];
+        cur_board[available_moves[cur_move]] = players[i % 2];
         ++turn_count;
 
         //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
+
     }
 
-    std::cout << cur_state.checkWin(turn_count) << "\n";
+    //std::cout << cur_state.checkWin(turn_count) << "\n";
 }
 
 void State::printBoard()
@@ -184,6 +192,7 @@ void Opponent::playVsUser()
 bool Opponent::seenState(std::vector<char> state_board)
 {
     bool found = false;
+    //s should be a State object
     for(auto s: play_history)
     {
         for(int i = 0; i < 9; i++)

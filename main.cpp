@@ -6,6 +6,10 @@ int main()
 {
     Opponent opp = Opponent(100);
 
+    for(int i = 0; i < opp.play_history.size(); ++i)
+    {
+        opp.play_history[i].printBoard();
+    }
     /*for(State s : opp.play_history)
     {
         std::cout << s.checkWin(9)<< " wins.\n";
