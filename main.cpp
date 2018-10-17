@@ -6,11 +6,11 @@ int main()
 {
     Opponent opp = Opponent(100);
 
-    for(State s : opp.play_history)
+    /*for(State s : opp.play_history)
     {
         std::cout << s.checkWin(9)<< " wins.\n";
         s.printBoard();
-    }
+    }*/
 
     //opp.playVsUser();
     State tx;
@@ -20,7 +20,7 @@ int main()
 
     opp.play_history.push_back(to);
     //std::cout << opp.states[0][2];
-    std::cout << opp.seenState(to);
+    std::cout << opp.seenState(to.board);
 
 
 }

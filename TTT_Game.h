@@ -44,7 +44,7 @@ class Opponent
         void play();
         void playNewGames(int n);
         void playVsUser();
-        bool seenState(State state);
+        bool seenState(std::vector<char> state_board);
         Opponent(int training_session);
 
 };

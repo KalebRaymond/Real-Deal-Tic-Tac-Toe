@@ -17,7 +17,6 @@ char State::checkWin(int turn_count)
         return board[4];
     }
 
-    int move_count = 0;
     //Check rows & columns
     for(int i = 0; i < 3; ++i)
     {
@@ -73,28 +72,36 @@ void Opponent::play()
     players[X_turn] = 'X';
     players[1 - X_turn] = 'O';
     int cur_move = rand() % available_moves.size();
-    int turn_count = 0;
+    int turn_count = 1;
 
     State cur_state;
 
+    std::cout << "New game\n";
+
     for(int i = 0; (i <= 8) && (cur_state.checkWin(turn_count) == '-'); ++i)
     {
-        if(!this->seenState(cur_state))
+
+        if(!this->seenState(cur_state.board))
         {
+            std::cout << "New state:\n";
             play_history.push_back(cur_state);
         }
+
+        cur_state.printBoard();
 
         while(available_moves[cur_move] == -1)
         {
             cur_move = rand() % available_moves.size();
         }
 
-        cur_state.board[i] = cur_move;
+        cur_state.board[available_moves[cur_move]] = players[i % 2];
         ++turn_count;
 
         //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
     }
+
+    std::cout << cur_state.checkWin(turn_count) << "\n";
 }
 
 void State::printBoard()
@@ -130,7 +137,8 @@ void Opponent::playNewGames(int n)
 {
     for(int i = 0; i < n; ++i)
     {
-        play_history.push_back(State());
+        //play_history.push_back(State());
+        play();
     }
 }
 
@@ -173,14 +181,14 @@ void Opponent::playVsUser()
 }
 
 //Returns true if parameter state "state" has been encountered in opponent's play experience
-bool Opponent::seenState(State state)
+bool Opponent::seenState(std::vector<char> state_board)
 {
     bool found = false;
     for(auto s: play_history)
     {
         for(int i = 0; i < 9; i++)
         {
-            if(s.board[i] != state.board[i])
+            if(s.board[i] != state_board[i])
             {
                 break;
             }
