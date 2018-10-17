@@ -5,7 +5,7 @@
 
 /* State members */
 
-char State::checkWin()
+char State::checkWin(int turn_count)
 {
     /* 0 1 2  /
     /  3 4 5  /
@@ -33,10 +33,10 @@ char State::checkWin()
 
     //Check if game is drawn
     //(by checking for a draw after checking 3's in a row, this prevents returning draw if the game is won on the 9th move)
-    /*if(X_moveboard.size() + O_moveboard.size() == 9)
+    if(turn_count == 9)
     {
         return 'D';
-    }*/
+    }
 
     //Otherwise, the game is still going
     return '-';
@@ -44,6 +44,12 @@ char State::checkWin()
 
 State::State()
 {
+    static bool seeded = false;
+    if(!seeded) {
+        srand(time(NULL));
+        seeded = true;
+    }
+
     board = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
 }
 
@@ -67,12 +73,13 @@ void Opponent::play()
     players[X_turn] = 'X';
     players[1 - X_turn] = 'O';
     int cur_move = rand() % available_moves.size();
+    int turn_count = 0;
 
     State cur_state;
 
-    for(int i = 0; (i <= 8) && (cur_state.checkWin() == '-'); ++i)
+    for(int i = 0; (i <= 8) && (cur_state.checkWin(turn_count) == '-'); ++i)
     {
-        if(!this.seenState(cur_state))
+        if(!this->seenState(cur_state))
         {
             play_history.push_back(cur_state);
         }
@@ -83,13 +90,14 @@ void Opponent::play()
         }
 
         cur_state.board[i] = cur_move;
+        ++turn_count;
 
         //std::cout << cur_move / 3 << " " << cur_move % 3;
         available_moves[cur_move] = -1;
     }
 }
 
-/*void TTT_Game::printBoard()
+void State::printBoard()
 {
     for(int i = 0; i < 9; ++i)
     {
@@ -102,7 +110,7 @@ void Opponent::play()
     std::cout << "\n";
 }
 
-TTT_Game::TTT_Game(Opponent* opponent)
+/*TTT_Game::TTT_Game(Opponent* opponent)
 {
     static bool seeded = false;
     if(!seeded) {
@@ -122,17 +130,17 @@ void Opponent::playNewGames(int n)
 {
     for(int i = 0; i < n; ++i)
     {
-        play_history.push_back(State);
+        play_history.push_back(State());
     }
 }
 
 void Opponent::playVsUser()
 {
-    TTT_Game current_game(this);
-    current_game.available_moves = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+    State current_game;
+    std::vector<int> available_moves = {0, 1, 2, 3, 4, 5, 6, 7, 8};
     int turn_count = 0;
 
-    while(current_game.checkWin() == '-')
+    while(current_game.checkWin(turn_count) == '-')
     {
         current_game.printBoard();
 
@@ -145,18 +153,18 @@ void Opponent::playVsUser()
             std::cin >> column;
 
             current_game.board[(row * 3) + column] = 'X';
-            current_game.available_moves[(row * 3) + column] = -1;
+            available_moves[(row * 3) + column] = -1;
         }
         else
         {
-            int cur_move = rand() % current_game.available_moves.size();
-            while(current_game.available_moves[cur_move] == -1)
+            int cur_move = rand() % available_moves.size();
+            while(available_moves[cur_move] == -1)
             {
-                cur_move = rand() % current_game.available_moves.size();
+                cur_move = rand() % available_moves.size();
             }
 
             current_game.board[cur_move] = 'O';
-            current_game.available_moves[cur_move] = -1;
+            available_moves[cur_move] = -1;
         }
 
         ++turn_count;
@@ -165,14 +173,14 @@ void Opponent::playVsUser()
 }
 
 //Returns true if parameter state "state" has been encountered in opponent's play experience
-bool Opponent::seenState(std::vector<char> state)
+bool Opponent::seenState(State state)
 {
     bool found = false;
-    for(auto s: states)
+    for(auto s: play_history)
     {
         for(int i = 0; i < 9; i++)
         {
-            if(s[i] != state[i])
+            if(s.board[i] != state.board[i])
             {
                 break;
             }

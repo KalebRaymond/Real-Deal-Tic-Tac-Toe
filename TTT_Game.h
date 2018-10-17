@@ -7,9 +7,12 @@ class Opponent;
 /* Class representing a game of tic tac toe at an aribitrary turn */
 class State
 {
-    std::vector<char> board;
-    double score;
-    char checkWin();
+    public:
+        std::vector<char> board;
+        double score;
+        char checkWin(int turn_count);
+        void printBoard();
+        State();
 };
 
 /* A class representing a game of tic tac toe */
@@ -38,10 +41,10 @@ class Opponent
         double move_probability[9];
 
     //public:
-
+        void play();
         void playNewGames(int n);
         void playVsUser();
-        bool seenState(std::vector<char> state);
+        bool seenState(State state);
         Opponent(int training_session);
 
 };
