@@ -14,7 +14,8 @@ char State::checkWin(int turn_count)
     if(( board[0] == board[4] && board[0] == board[8] )
         || ( board[6] == board[4] && board[6] == board[2] ))
     {
-        return board[4];
+        if(board[4] != '-');
+            return board[4];
     }
 
     //Check rows & columns
@@ -22,11 +23,13 @@ char State::checkWin(int turn_count)
     {
         if(board[i * 3] == board[(i * 3) + 1] && board[i * 3] == board[(i * 3) + 2])
         {
-            return board[i * 3];
+            if(board[i * 3] != '-');
+                return board[i * 3];
         }
         if(board[i] == board[3 + i] && board[i] == board[6 + i])
         {
-            return board[i];
+           if(board[i] != '-');
+                return board[i];
         }
     }
 
@@ -41,6 +44,20 @@ char State::checkWin(int turn_count)
     return '-';
 }
 
+
+void State::printBoard()
+{
+    for(int i = 0; i < 9; ++i)
+    {
+        std::cout << board[i];
+
+        if(i % 3 == 2)
+            std::cout << "\n";
+    }
+
+    std::cout << "\n";
+}
+
 State::State()
 {
     static bool seeded = false;
@@ -51,6 +68,8 @@ State::State()
 
     board = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
 }
+
+/* Opponent members */
 
 void Opponent::play()
 {
@@ -80,20 +99,21 @@ void Opponent::play()
 
     for(int i = 0; i <= 8; ++i)
     {
-
         if(!this->seenState(cur_board))
         {
             std::cout << "New state:\n";
             play_history.push_back(State());
-            play_history[play_history.size() - 1].board = cur_board;
+
+            for(int j = 0; j < 8; ++j)
+            {
+                play_history[play_history.size() - 1].board.push_back(cur_board[j]);
+            }
 
             if(play_history[play_history.size() - 1].checkWin(turn_count) != '-')
             {
                 break;
             }
         }
-
-        //cur_board.printBoard();
 
         while(available_moves[cur_move] == -1)
         {
@@ -112,34 +132,6 @@ void Opponent::play()
     //std::cout << cur_state.checkWin(turn_count) << "\n";
 }
 
-void State::printBoard()
-{
-    for(int i = 0; i < 9; ++i)
-    {
-        std::cout << board[i];
-
-        if(i % 3 == 2)
-            std::cout << "\n";
-    }
-
-    std::cout << "\n";
-}
-
-/*TTT_Game::TTT_Game(Opponent* opponent)
-{
-    static bool seeded = false;
-    if(!seeded) {
-        srand(time(NULL));
-        seeded = true;
-    }
-
-    board = {'-', '-','-','-','-','-','-','-','-'};
-
-    this->opponent = opponent;
-
-}*/
-
-/* Opponent members */
 
 void Opponent::playNewGames(int n)
 {

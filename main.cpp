@@ -21,10 +21,13 @@ int main()
     tx.board = {'X','X','X','X','X','X','X','X','X'};
     State to;
     to.board = {'O','O','O','O','O','O','O','O','O'};
+    State tt;
+    tt.board = {'X','-','-','-','-','-','-','O','-'};
 
     opp.play_history.push_back(to);
+    opp.play_history.push_back(tx);
     //std::cout << opp.states[0][2];
-    std::cout << opp.seenState(to.board);
+    std::cout << tt.checkWin(9);
 
 
 }
