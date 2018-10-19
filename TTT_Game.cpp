@@ -195,6 +195,7 @@ bool Opponent::seenState(std::vector<char> state_board)
         {
             if(s.board[i] != state_board[i])
             {
+                found = false;
                 break;
             }
 
