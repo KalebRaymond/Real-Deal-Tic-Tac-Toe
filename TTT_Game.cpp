@@ -101,13 +101,17 @@ void Opponent::play()
     {
         if(!this->seenState(cur_board))
         {
-            std::cout << "New state:\n";
+            std::cout << "New state";
             play_history.push_back(State());
+            play_history[play_history.size() - 1].board = {'-','-','-','-','-','-','-','-','-'};
 
             for(int j = 0; j < 8; ++j)
             {
-                play_history[play_history.size() - 1].board.push_back(cur_board[j]);
+                //std::cout << cur_board[j] << " ";
+                play_history[play_history.size() - 1].board[j] = cur_board[j];
             }
+
+            std::cout << "\n";
 
             if(play_history[play_history.size() - 1].checkWin(turn_count) != '-')
             {

@@ -27,7 +27,7 @@ int main()
     opp.play_history.push_back(to);
     opp.play_history.push_back(tx);
     //std::cout << opp.states[0][2];
-    std::cout << tt.checkWin(9);
+    std::cout << opp.seenState(tt.board);
 
 
 }
