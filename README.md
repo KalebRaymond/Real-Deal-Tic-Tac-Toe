@@ -1,5 +1,8 @@
 # Real Deal Tic Tac Toe
-
+ 
+TODO: >keep list of indices of states encountered during play() so you can backtrack through when evaluating states  
+      >evaluate states  
+      
 Using a min-max algorithm is a whole lot faster, simpler, and should be used in the real world instead of this machine learning bs,  and because Tic Tac Toe is a solved game an AI is totally unnecessary anyway, but machine learning bs is a lot more fun and interesting.
 
 In contrast to my other Tic Tac Toe project that used min-max, this one's opponent prepares for the game by simulating a given amount of test rounds and applying what it learned against the user.
