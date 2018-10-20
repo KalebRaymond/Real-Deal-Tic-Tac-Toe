@@ -10,6 +10,7 @@ class State
     public:
         std::vector<char> board;
         double score;
+        double alpha;
         char checkWin(int turn_count);
         void printBoard();
         State();
@@ -27,7 +28,7 @@ class Opponent
         void play();
         void playNewGames(int n);
         void playVsUser();
-        bool seenState(std::vector<char> state_board);
+        int getIndex(std::vector<char> state_board);
         Opponent(int training_session);
 
 };

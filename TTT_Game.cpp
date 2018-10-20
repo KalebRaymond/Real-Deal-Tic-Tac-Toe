@@ -67,6 +67,8 @@ State::State()
     }
 
     board = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
+    score = 0.5;
+    alpha = 0.1;
 }
 
 /* Opponent members */
@@ -99,11 +101,10 @@ void Opponent::play()
 
     for(int i = 0; i <= 8; ++i)
     {
-        if(!this->seenState(cur_board))
+        if(this->getIndex(cur_board) == -1)
         {
             std::cout << "New state";
             play_history.push_back(State());
-            play_history[play_history.size() - 1].board = {'-','-','-','-','-','-','-','-','-'};
 
             for(int j = 0; j < 8; ++j)
             {
@@ -184,16 +185,16 @@ void Opponent::playVsUser()
 
 }
 
-//Returns true if parameter state "state" has been encountered in opponent's play experience
-bool Opponent::seenState(std::vector<char> state_board)
+//Returns index of the state containing state_board as its board member in Opponent::play_history. If no state is found, returns -1
+int Opponent::getIndex(std::vector<char> state_board)
 {
     bool found = false;
     //s should be a State object
-    for(auto s: play_history)
+    for(int i = 0; i < play_history.size(); ++i)
     {
-        for(int i = 0; i < 9; i++)
+        for(int j = 0; j < 9; j++)
         {
-            if(s.board[i] != state_board[i])
+            if(play_history[i].board[j] != state_board[j])
             {
                 found = false;
                 break;
@@ -204,11 +205,11 @@ bool Opponent::seenState(std::vector<char> state_board)
 
         if(found)
         {
-            return true;
+            return i;
         }
     }
 
-    return false;
+    return -1;
 }
 
 Opponent::Opponent(int training_session)

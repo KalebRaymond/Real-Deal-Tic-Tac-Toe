@@ -8,6 +8,7 @@ int main()
 
     for(int i = 0; i < opp.play_history.size(); ++i)
     {
+        std::cout << opp.play_history[i].score << "\n";
         opp.play_history[i].printBoard();
     }
     /*for(State s : opp.play_history)
@@ -27,7 +28,7 @@ int main()
     opp.play_history.push_back(to);
     opp.play_history.push_back(tx);
     //std::cout << opp.states[0][2];
-    std::cout << opp.seenState(tt.board);
+    std::cout << opp.getIndex(tt.board);
 
 
 }
