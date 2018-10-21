@@ -94,14 +94,32 @@ void Opponent::play()
     players[1 - X_turn] = 'O';
     int cur_move = rand() % available_moves.size();
     int turn_count = 1;
+    int board_index = 0;
 
     std::vector<char> cur_board = {'-','-','-','-','-','-','-','-','-'};
+    std::vector<int> state_indices;
 
     std::cout << "New game\n";
 
     for(int i = 0; i <= 8; ++i)
     {
-        if(this->getIndex(cur_board) == -1)
+        //Get legal move
+        while(available_moves[cur_move] == -1)
+        {
+            cur_move = rand() % available_moves.size();
+        }
+
+        //Place X or O in board
+        cur_board[available_moves[cur_move]] = players[i % 2];
+        ++turn_count;
+
+        //Mark move as taken
+        available_moves[cur_move] = -1;
+
+        board_index = this->getIndex(cur_board);
+
+        //Cur_board has not been encountered before
+        if(board_index == -1)
         {
             std::cout << "New state";
             play_history.push_back(State());
@@ -112,6 +130,8 @@ void Opponent::play()
                 play_history[play_history.size() - 1].board[j] = cur_board[j];
             }
 
+            state_indices.push_back(this->play_history.size() - 1);
+
             std::cout << "\n";
 
             if(play_history[play_history.size() - 1].checkWin(turn_count) != '-')
@@ -119,22 +139,28 @@ void Opponent::play()
                 break;
             }
         }
-
-        while(available_moves[cur_move] == -1)
+        else
         {
-            cur_move = rand() % available_moves.size();
-
+            state_indices.push_back(board_index);
         }
+    }
 
-        cur_board[available_moves[cur_move]] = players[i % 2];
-        ++turn_count;
+    switch(state_indices[state_indices.size() - 1])
+    {
+        case 'X': case 'D':
+            this->play_history[board_index].score = 0;
+        case 'O':
+            this->play_history[board_index].score = 1;
+    }
 
-        //std::cout << cur_move / 3 << " " << cur_move % 3;
-        available_moves[cur_move] = -1;
-
+    for(int i = state_indices.size() - 2; i >= 0; --i)
+    {
+        //Current state score += alpha * (successive state's score - current state score)
+        this->play_history[state_indices[i]].score += 0.1 * (this->play_history[state_indices[i + 1]].score - this->play_history[state_indices[i]].score);
     }
 
     //std::cout << cur_state.checkWin(turn_count) << "\n";
+    //Evaluate states seen in
 }
 
 
