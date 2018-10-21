@@ -149,8 +149,10 @@ void Opponent::play()
     {
         case 'X': case 'D':
             this->play_history[board_index].score = 0;
+            break;
         case 'O':
             this->play_history[board_index].score = 1;
+            break;
     }
 
     for(int i = state_indices.size() - 2; i >= 0; --i)
