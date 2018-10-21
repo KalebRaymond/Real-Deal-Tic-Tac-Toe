@@ -10,15 +10,5 @@ The bulk of this program was spent trying to decipher what `V(s) <- V(s) + α[ V
 
 
 
-## Handy references ##
-### Method branch names refer to this list.  
-Dartmouth. https://www.cs.dartmouth.edu/~lorenzo/teaching/cs134/Archive/Spring2009/final/PengTao/final_report.pdf  
-1. https://users.auth.gr/kehagiat/Research/GameTheory/12CombBiblio/TicTacToe.pdf  
-2. Alpha Toe - https://www.youtube.com/watch?v=Meb5hApAnj4  
-3. Naive Bayes - http://www.ijiet.org/papers/314-k010.pdf  
-4. Reinforcement Learning - https://medium.com/@shiyan/get-a-taste-of-reinforcement-learning-implement-a-tic-tac-toe-agent-deda5617b2e4  
-5. Monte Carlo Sampling - https://www.google.com/search?q=monte+carlo+sampling&ie=utf-8&oe=utf-8&client=firefox-b-1-ab  
-6. Policy Gradients - https://www.google.com/search?q=policy+gradients&ie=utf-8&oe=utf-8&client=firefox-b-1-ab  
-
-
-![Me_irl](https://cdn.iwastesomuchtime.com/7102012232216iwsmt.jpeg)
+https://www.cs.dartmouth.edu/~lorenzo/teaching/cs134/Archive/Spring2009/final/PengTao/final_report.pdf  
+https://users.auth.gr/kehagiat/Research/GameTheory/12CombBiblio/TicTacToe.pdf  
