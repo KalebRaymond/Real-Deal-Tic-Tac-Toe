@@ -1,4 +1,4 @@
-# Real Deal Tic Tac Toe
+# Real Deal Tic-Tac-Toe
  
 Using a min-max algorithm is a whole lot faster, simpler, and should be used in the real world instead of this machine learning bs,  and because Tic Tac Toe is a solved game an AI is totally unnecessary anyway, but machine learning bs is a lot more fun and interesting.
 
