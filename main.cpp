@@ -4,7 +4,7 @@
 
 int main()
 {
-    Opponent opp = Opponent(100);
+    Opponent opp = Opponent(1000);
 
     for(int i = 0; i < opp.play_history.size(); ++i)
     {

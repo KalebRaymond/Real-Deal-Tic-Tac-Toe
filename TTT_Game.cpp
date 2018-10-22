@@ -99,7 +99,7 @@ void Opponent::play()
     std::vector<char> cur_board = {'-','-','-','-','-','-','-','-','-'};
     std::vector<int> state_indices;
 
-    std::cout << "New game\n";
+    //std::cout << "New game\n";
 
     for(int i = 0; i <= 8; ++i)
     {
@@ -121,7 +121,7 @@ void Opponent::play()
         //Cur_board has not been encountered before
         if(board_index == -1)
         {
-            std::cout << "New state";
+            //std::cout << "New state";
             play_history.push_back(State());
 
             for(int j = 0; j < 8; ++j)
@@ -145,24 +145,17 @@ void Opponent::play()
         }
     }
 
-    switch(state_indices[state_indices.size() - 1])
-    {
-        case 'X': case 'D':
-            this->play_history[board_index].score = 0;
-            break;
-        case 'O':
-            this->play_history[board_index].score = 1;
-            break;
-    }
+
+    if(this->play_history[state_indices[state_indices.size() - 1]].checkWin(turn_count) == 'O')
+        this->play_history[state_indices[state_indices.size() - 1]].score = 1;
+    else
+        this->play_history[state_indices[state_indices.size() - 1]].score = 0;
 
     for(int i = state_indices.size() - 2; i >= 0; --i)
     {
         //Current state score += alpha * (successive state's score - current state score)
-        this->play_history[state_indices[i]].score += 0.1 * (this->play_history[state_indices[i + 1]].score - this->play_history[state_indices[i]].score);
+        this->play_history[state_indices[i]].score = this->play_history[state_indices[i]].score + 0.1 * (this->play_history[state_indices[i + 1]].score - this->play_history[state_indices[i]].score);
     }
-
-    //std::cout << cur_state.checkWin(turn_count) << "\n";
-    //Evaluate states seen in
 }
 
 
@@ -170,7 +163,6 @@ void Opponent::playNewGames(int n)
 {
     for(int i = 0; i < n; ++i)
     {
-        //play_history.push_back(State());
         play();
     }
 }

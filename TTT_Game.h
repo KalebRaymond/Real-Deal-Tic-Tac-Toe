@@ -21,7 +21,6 @@ class Opponent
 {
     public:
         std::vector<State> play_history;
-        //std::vector< std::vector< char>> states; //Sometimes I really regret learning C++ as my first language
         double move_probability[9];
 
     //public:
