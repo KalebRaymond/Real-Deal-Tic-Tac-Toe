@@ -10,6 +10,13 @@ char State::checkWin(int turn_count)
     /* 0 1 2  /
     /  3 4 5  /
     /  6 7 8 */
+
+    //Game cannot be won within first four moves
+    if(turn_count < 4)
+    {
+        return '-';
+    }
+
     //Check diagonals
     if(( board[0] == board[4] && board[0] == board[8] )
         || ( board[6] == board[4] && board[6] == board[2] ))
@@ -68,7 +75,6 @@ State::State()
 
     board = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
     score = 0.5;
-    alpha = 0.1;
 }
 
 /* Opponent members */
@@ -99,8 +105,6 @@ void Opponent::play()
     std::vector<char> cur_board = {'-','-','-','-','-','-','-','-','-'};
     std::vector<int> state_indices;
 
-    //std::cout << "New game\n";
-
     for(int i = 0; i <= 8; ++i)
     {
         //Get legal move
@@ -121,18 +125,9 @@ void Opponent::play()
         //Cur_board has not been encountered before
         if(board_index == -1)
         {
-            //std::cout << "New state";
             play_history.push_back(State());
-
-            for(int j = 0; j < 8; ++j)
-            {
-                //std::cout << cur_board[j] << " ";
-                play_history[play_history.size() - 1].board[j] = cur_board[j];
-            }
-
+            play_history[play_history.size() - 1].board = cur_board;
             state_indices.push_back(this->play_history.size() - 1);
-
-            std::cout << "\n";
 
             if(play_history[play_history.size() - 1].checkWin(turn_count) != '-')
             {
@@ -145,16 +140,17 @@ void Opponent::play()
         }
     }
 
-
+    //If opponent won, give state a score of 1. Otherwise, a score of 0.
     if(this->play_history[state_indices[state_indices.size() - 1]].checkWin(turn_count) == 'O')
         this->play_history[state_indices[state_indices.size() - 1]].score = 1;
     else
         this->play_history[state_indices[state_indices.size() - 1]].score = 0;
 
+    double alpha = 0.5;
     for(int i = state_indices.size() - 2; i >= 0; --i)
     {
-        //Current state score += alpha * (successive state's score - current state score)
-        this->play_history[state_indices[i]].score = this->play_history[state_indices[i]].score + 0.1 * (this->play_history[state_indices[i + 1]].score - this->play_history[state_indices[i]].score);
+        this->play_history[state_indices[i]].score = this->play_history[state_indices[i]].score + alpha * (this->play_history[state_indices[i + 1]].score - this->play_history[state_indices[i]].score);
+        alpha = alpha - (alpha / this->play_history.size());
     }
 }
 
@@ -179,6 +175,7 @@ void Opponent::playVsUser()
 
         if(turn_count % 2 == 0)
         {
+            /* X's turn */
             int row = 0, column = 0;
             std::cout << "Enter row: ";
             std::cin >> row;
@@ -190,14 +187,43 @@ void Opponent::playVsUser()
         }
         else
         {
-            int cur_move = rand() % available_moves.size();
-            while(available_moves[cur_move] == -1)
-            {
-                cur_move = rand() % available_moves.size();
-            }
+            /* O's turn */
+            std::vector<char> cur_board = current_game.board;
+            int board_index = this->getIndex(cur_board);
 
-            current_game.board[cur_move] = 'O';
-            available_moves[cur_move] = -1;
+            //If current state was never encountered, make a random move
+            if(board_index == -1)
+            {
+                int cur_move = rand() % available_moves.size();
+                while(available_moves[cur_move] == -1)
+                {
+                    cur_move = rand() % available_moves.size();
+                }
+
+                current_game.board[cur_move] = 'O';
+                available_moves[cur_move] = -1;
+            }
+            else
+            {
+                double prob_of_winning = 0;
+                int best_index;
+
+                for(int i = 0; i < 9; ++i)
+                {
+                    if(cur_board[i] == '-')
+                    {
+                        //Assess probability of winning if opponent plays in this space
+                        if(this->play_history[this->getIndex(cur_board)].score > prob_of_winning)
+                        {
+                              prob_of_winning = this->play_history[this->getIndex(cur_board)].score;
+                              best_index = i;
+                        }
+                    }
+                }
+
+                current_game.board[best_index] = 'O';
+                available_moves[best_index] = -1;
+            }
         }
 
         ++turn_count;
@@ -234,6 +260,8 @@ int Opponent::getIndex(std::vector<char> state_board)
 
 Opponent::Opponent(int training_session)
 {
+    this->play_history.reserve(training_session);
+
     for(double &d : move_probability)
     {
         d = 0.0;

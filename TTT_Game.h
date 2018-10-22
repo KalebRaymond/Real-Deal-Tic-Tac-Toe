@@ -1,8 +1,9 @@
 #include <vector>
 
 class State;
-class TTT_Game;
 class Opponent;
+
+//I'm going to keep everything public just for ease of developing
 
 /* Class representing a game of tic tac toe at an aribitrary turn */
 class State
@@ -10,7 +11,7 @@ class State
     public:
         std::vector<char> board;
         double score;
-        double alpha;
+
         char checkWin(int turn_count);
         void printBoard();
         State();
@@ -23,7 +24,6 @@ class Opponent
         std::vector<State> play_history;
         double move_probability[9];
 
-    //public:
         void play();
         void playNewGames(int n);
         void playVsUser();
