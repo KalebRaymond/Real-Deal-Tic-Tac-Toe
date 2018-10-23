@@ -25,9 +25,10 @@ class Opponent
         double move_probability[9];
 
         void play();
-        void playNewGames(int n);
+        void playNewGames(int n, int key);
+        void playWithData();
         void playVsUser();
         int getIndex(std::vector<char> state_board);
-        Opponent(int training_session);
+        Opponent(int training_session, int key);
 
 };

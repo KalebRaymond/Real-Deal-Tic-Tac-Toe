@@ -79,18 +79,9 @@ State::State()
 
 /* Opponent members */
 
+//Function to have opponent train by making random moves
 void Opponent::play()
 {
-    //So I'm thinking the configuration of board[3][3] is s. Thus V(s) somehow determiens the value of that state s.
-    //I suppose s' is a state that has already been encountered, which can be accessed from a database of states.
-    /*   a. In each episode of the learning phase                                                                                   /
-    /    1) Observe a current board state s;                                                                                        /
-    /    2) Make a next move based on the distribution of all available V(s') of next moves;                                        /
-    /    3) Record s' in a sequence;                                                                                                /
-    /    4)  If  the  game  finishes,  it  updates  the  values  of  the  visited  states  in  the  sequence  and  starts  over     /
-    /    again; otherwise, go to 1).                                                                                               */
-
-
     //Randomize players between [X, O] and [O, X] to simulate games starting with different player
     char players[2];
     std::vector<int> available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
@@ -154,13 +145,120 @@ void Opponent::play()
     }
 }
 
-
-void Opponent::playNewGames(int n)
+//Function to have opponent train using its experience. Conspicuously, opponent performs much worse using this approach.
+void Opponent::playWithData()
 {
-    for(int i = 0; i < n; ++i)
+    //Randomize players between [X, O] and [O, X] to simulate games starting with different player
+    char players[2];
+    std::vector<int> available_moves = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
+    int X_turn = rand() % 2;
+
+    players[X_turn] = 'X';
+    players[1 - X_turn] = 'O';
+    int cur_move = rand() % available_moves.size();
+    int turn_count = 1;
+    int board_index = 0;
+
+    std::vector<char> cur_board = {'-','-','-','-','-','-','-','-','-'};
+    std::vector<int> state_indices;
+
+    for(int i = 0; i <= 8; ++i)
     {
-        play();
+        char player = players[i % 2];
+        int board_index = this->getIndex(cur_board);
+
+        //If current state was never encountered, make a random move
+        if(board_index == -1)
+        {
+            int cur_move = rand() % available_moves.size();
+            while(available_moves[cur_move] == -1)
+            {
+                cur_move = rand() % available_moves.size();
+            }
+
+            cur_board[cur_move] = player;
+            available_moves[cur_move] = -1;
+        }
+        else
+        {
+            double prob_of_winning = 0;
+            int best_index;
+
+            for(int j = 0; j < 9; ++j)
+            {
+                if(cur_board[j] == '-')
+                {
+                    //Assess probability of winning if opponent plays in this space
+                    cur_board[j] = player;
+
+                    if(this->play_history[this->getIndex(cur_board)].score > prob_of_winning)
+                    {
+                          prob_of_winning = this->play_history[this->getIndex(cur_board)].score;
+                          best_index = j;
+                    }
+
+                    cur_board[j] = '-';
+                }
+            }
+
+            cur_board[best_index] = player;
+            available_moves[best_index] = -1;
+        }
+
+        ++turn_count;
+
+        board_index = this->getIndex(cur_board);
+
+        //Cur_board has not been encountered before
+        if(board_index == -1)
+        {
+            play_history.push_back(State());
+            play_history[play_history.size() - 1].board = cur_board;
+            state_indices.push_back(this->play_history.size() - 1);
+
+            if(play_history[play_history.size() - 1].checkWin(turn_count) != '-')
+            {
+                break;
+            }
+        }
+        else
+        {
+            state_indices.push_back(board_index);
+        }
     }
+
+    //If opponent won, give state a score of 1. Otherwise, a score of 0.
+    if(this->play_history[state_indices[state_indices.size() - 1]].checkWin(turn_count) == 'O')
+        this->play_history[state_indices[state_indices.size() - 1]].score = 1;
+    else
+        this->play_history[state_indices[state_indices.size() - 1]].score = 0;
+
+    double alpha = 0.5;
+    for(int i = state_indices.size() - 2; i >= 0; --i)
+    {
+        this->play_history[state_indices[i]].score = this->play_history[state_indices[i]].score + alpha * (this->play_history[state_indices[i + 1]].score - this->play_history[state_indices[i]].score);
+        alpha = alpha - (alpha / this->play_history.size());
+    }
+}
+
+//If key == 0, train with Opponent::play(). If key == 1, train using Opponent::playWithData()
+void Opponent::playNewGames(int n, int key)
+{
+    if(key == 0)
+    {
+        for(int i = 0; i < n; ++i)
+        {
+            play();
+        }
+    }
+    else
+    {
+        for(int i = 0; i < n; ++i)
+        {
+            playWithData();
+        }
+    }
+
 }
 
 void Opponent::playVsUser()
@@ -213,11 +311,15 @@ void Opponent::playVsUser()
                     if(cur_board[i] == '-')
                     {
                         //Assess probability of winning if opponent plays in this space
+                        cur_board[i] = 'O';
+
                         if(this->play_history[this->getIndex(cur_board)].score > prob_of_winning)
                         {
                               prob_of_winning = this->play_history[this->getIndex(cur_board)].score;
                               best_index = i;
                         }
+
+                        cur_board[i] = '-';
                     }
                 }
 
@@ -228,6 +330,9 @@ void Opponent::playVsUser()
 
         ++turn_count;
     }
+
+    current_game.printBoard();
+    std::cout << current_game.checkWin(turn_count) << " wins!\n";
 
 }
 
@@ -258,7 +363,7 @@ int Opponent::getIndex(std::vector<char> state_board)
     return -1;
 }
 
-Opponent::Opponent(int training_session)
+Opponent::Opponent(int training_session, int key)
 {
     this->play_history.reserve(training_session);
 
@@ -267,5 +372,5 @@ Opponent::Opponent(int training_session)
         d = 0.0;
     }
 
-    playNewGames(training_session);
+    playNewGames(training_session, key);
 }

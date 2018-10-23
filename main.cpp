@@ -5,7 +5,7 @@
 int main()
 {
 
-    Opponent opp = Opponent(100000);
+    Opponent opp = Opponent(25000, 0);
 
     for(int i = 0; i < opp.play_history.size(); ++i)
     {
@@ -13,5 +13,7 @@ int main()
         opp.play_history[i].printBoard();
     }
 
-    opp.playVsUser();
+    for(int i = 0; i < 5; ++i)
+        opp.playVsUser();
+
 }
