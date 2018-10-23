@@ -9,6 +9,6 @@ I would have added a function to determine whether two tic-tac-toe games were re
 The bulk of this program was spent trying to decipher what `V(s) <- V(s) + α[ V(s') - V(s) ]` meant in terms of code (with procrastinating in the README coming in close second.) It took me like three days to figure out that `<-` just meant the asignment operator `=`. All the articles on temporal difference reinforcement learning are written in highly theoretical language - perhaps it is my duty to spoonfeed others who shall follow in my path.
 
 
-
+## Works cited
 https://www.cs.dartmouth.edu/~lorenzo/teaching/cs134/Archive/Spring2009/final/PengTao/final_report.pdf  
 https://users.auth.gr/kehagiat/Research/GameTheory/12CombBiblio/TicTacToe.pdf  
